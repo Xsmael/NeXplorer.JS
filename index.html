@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="libs/css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="libs/css/bootstrap.min.css" />
+
+    <script src="libs/js/jquery.1.11.min.js"></script>
+    <script src="libs/js/jquery-ui.min.js"></script>
+    <script src="libs/js/bootstrap.min.js"></script>
+    <script src="libs/js/bootbox.min.js"></script>
+    <script src="js/live-reload.js"></script>
+    <script src="libs/js/angular.js"></script>
+    <script src="app.js"></script>
+    <title>NeXplorer</title>
+
+    <style>
+        body{
+            margin: 15px;
+        }
+
+        .hidden-btn {
+            display: none;
+        }
+        .hidden-btn-parent:hover .hidden-btn {
+            display: block;
+        }
+        .hidden-btn-parent:hover  {
+            background-color: #fff3b5 !important;
+        }
+    </style>
+</head>
+
+<body ng-app="nexplorer">
+    <div ng-controller="MainController" class="container-fluid">
+        <div class="row">
+            <div class="input-group">
+                <div class="input-group-btn">
+                        <a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+                        <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>-->
+                        <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>-->
+                </div>
+                <input type="text" class="form-control" ng-model="PWD">
+                <div class="input-group-btn">
+                        <a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon glyphicon-th-large" aria-hidden="true"></span></a>
+                        <a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>File Name</th>
+                            <th>Size</th>
+                            <th>Date created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="f in currentFiles" class="hidden-btn-parent">
+                            <th scope="row">{{$index}}</th>
+                            <td>{{f.name}}</td>
+                            <td>{{f.size}}</td>
+                            <td>{{f.createdAt | date: 'dd-MM-yyyy'}}</td>
+                            <td >
+                                <a class="btn btn-danger hidden-btn" href="#" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-8">
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
