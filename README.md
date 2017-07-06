@@ -29,8 +29,7 @@ use cases:
 ![Thumbnail view](screenshots/4.png?raw=true "Thumbnails")
 
 
-Beware:
+##### Beware:
 - this is an alpha verion, I'll need few weeks to finish the first release as my time permit...
--Tested only on windows, you can try other platform and report any bugs.
-
+- Tested only on windows, you can try other platform and report any bugs.
 
