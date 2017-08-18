@@ -1,0 +1,10 @@
+    .icon-stack {
+        position: relative;
+    }
+    .icon-stack .glyphicon {
+        position: absolute; 
+    }
+    .overlay {
+      margin-top: 20px;
+      margin-left: 10px;
+    }

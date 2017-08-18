@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="libs/css/jquery-ui.min.css" />
     <link rel="stylesheet" href="libs/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css" />
 
     <script src="libs/js/jquery.1.11.min.js"></script>
     <script src="libs/js/jquery-ui.min.js"></script>
@@ -15,74 +16,142 @@
     <script src="libs/js/bootbox.min.js"></script>
     <script src="js/live-reload.js"></script>
     <script src="libs/js/angular.js"></script>
+    <script src="libs/js/smart-table.js"></script>
     <script src="app.js"></script>
     <title>NeXplorer</title>
 
     <style>
-        body{
-            margin: 15px;
+        body {
+            margin-left: 15px;
+            margin-right: 15px;
         }
 
         .hidden-btn {
             display: none;
         }
+
         .hidden-btn-parent:hover .hidden-btn {
             display: block;
         }
-        .hidden-btn-parent:hover  {
+
+        .hidden-btn-parent:hover {
             background-color: #fff3b5 !important;
         }
+
+        .address-bar {
+            position: fixed;
+            height: 60px;
+            background-color: white;
+            z-index: 9999;
+            padding-top: 15px;
+            margin-right: 15px;
+            /*margin-top: 30px;*/
+        }
+
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            padding-bottom: 10px;
+            margin-right: 15px;
+            background-color: white;
+        }
+
+        .files-box {
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        .overlay {
+            top: 5px;
+            margin-left: -12px;
+        }
+        .new-dir-input {
+                margin-bottom: -3px;
+
+        }
+        .new-dir-input{
+            width: 10px;
+            -webkit-transition: width 0.4s ease-in-out;
+            transition: width 0.4s ease-in-out;
+        }
+        /* When the input field gets focus, change its width to 100% */
+        .new-dir-input:focus {
+            width: 60vw;
+        }
+
     </style>
 </head>
 
 <body ng-app="nexplorer">
     <div ng-controller="MainController" class="container-fluid">
-        <div class="row">
+        <div class="row address-bar">
             <div class="input-group">
                 <div class="input-group-btn">
-                        <a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+                    <a class="btn btn-default" href="#" ng-click="changeToParentDir()" role="button"><span class="glyphicon glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+                    <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>-->
+                    <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>-->
+                </div>
+                <input type="text" class="form-control" ng-model="addressBar" ng-change="changeDir(addressBar)">
+                <div class="input-group-btn">
+                    <a class="btn btn-default" ng-click="changeViewMode('thumb')" role="button"><span class="glyphicon glyphicon glyphicon-th-large" aria-hidden="true"></span></a>
+                    <a class="btn btn-default" ng-click="changeViewMode('list')" role="button"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                </div>
+            </div>
+        </div>
+
+
+        <div st-table="displayedData" st-safe-src="currentFiles">
+            <!-- SmartTable module scope-->
+
+            <div class="row files-box">
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-12">
+                    <div ng-show="fileCount==0">
+                        <div class="jumbotron" style="text-align:center">
+                            <h1> Nothing Here! :P</h1>
+                            <p>...</p>
+                            <a class="btn btn-primary btn-lg" ng-click="changeToParentDir()" role="button"> 
+                                <span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back ?
+                            </a>
+                        </div>
+                    </div>
+
+                    <div ng-show="fileCount>0" ng-include="itemsViewMode"></div>
+
+                </div>
+            </div>
+            <div class="row bottom-bar">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <span class="btn btn-default"><span class="glyphicon glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
+                        <span class="btn btn-default"> <strong> {{currentDir}} </strong> </span>
                         <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>-->
                         <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>-->
+                            <span class="btn btn-default " style="padding:3px 10px;">
+                                    <i class="glyphicon glyphicon-folder-open" style="font-size:21px; padding:0px"></i>
+                                    <i class="glyphicon glyphicon-plus overlay" style="color:orange" ></i>
+                                    <input type="tezxt" class="new-dir-input" placeholder="Name">
+                            </span>
+                            <span class="btn btn-default " style="padding:3px 10px;">
+                                    <i class="glyphicon glyphicon-file" style="font-size:21px; padding:0px"></i>
+                                    <i class="glyphicon glyphicon-plus overlay" style="color:orange" ></i>
+                            </span>
+                    </div>
+              
+                    <input type="search" st-search="name" class="form-control" placeholder="Search">
+
+                    <div class="input-group-btn">
+                        <span class="btn btn-default"> <strong> {{dirSize |bytes}}  </strong> </span>
+                        <span class="btn btn-default"> <strong> {{fileCount}} files </strong> </span>
+                    </div>
                 </div>
-                <input type="text" class="form-control" ng-model="PWD">
-                <div class="input-group-btn">
-                        <a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon glyphicon-th-large" aria-hidden="true"></span></a>
-                        <a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
-                </div>
             </div>
-        </div>
 
-
-        <div class="row">
-            <div class="col-md-4">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>File Name</th>
-                            <th>Size</th>
-                            <th>Date created</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="f in currentFiles" class="hidden-btn-parent">
-                            <th scope="row">{{$index}}</th>
-                            <td>{{f.name}}</td>
-                            <td>{{f.size}}</td>
-                            <td>{{f.createdAt | date: 'dd-MM-yyyy'}}</td>
-                            <td >
-                                <a class="btn btn-danger hidden-btn" href="#" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-8">
-
-            </div>
         </div>
     </div>
+
 </body>
 
 </html>

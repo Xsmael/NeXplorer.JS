@@ -1,0 +1,54 @@
+<style>
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.7s;
+    width: 200px;    /* this value should match with the max-height of .icon to keep 1:1 ratio */
+    border-radius: 5px;
+}
+.icon {
+    max-height: 150px; /* this value should match with the width of .card to keep 1:1 ratio */
+    width: 10%;
+    object-fit: cover; /*magic*/
+}
+
+.card:hover {
+    box-shadow: 0 90px 150px 0 rgba(0,0,0,0.2);
+}
+img {
+    border-radius: 5px 5px 0 0;
+}
+.file-name {
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+.file-size {
+    font-weight: bold;
+    font-size: 10px;
+}
+
+
+.card-text {
+    padding: 2px 16px;
+     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*display: inline-block;*/
+    /*max-width: 100%;*/
+}
+.card-container {
+    display: inline-block;
+    margin: 10px;
+}
+</style>
+
+    <div class="card-container"  ng-repeat="f in displayedData" >
+        <div class="card" ng-click="openDir(f.name)">
+        <img class="icon"  src="{{f.icon}}" alt="Avatar" style="width:100%">
+        <div class="card-text">
+            <span class="file-name"> {{f.name}} </span> 
+            <p class="file-size"> {{f.size |bytes }} </p> 
+        </div>
+        </div>
+    </div>
+

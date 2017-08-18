@@ -1,0 +1,23 @@
+<table class="table table-striped" >
+    <thead>
+        <tr>
+            <th>#</th>
+            <th st-sort="name" >File Name</th>
+            <th st-sort="size" >Size</th>
+            <th st-sort="createdAt" >Date created</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="f in displayedData" class=" hidden-btn-parent" ng-click="openDir(f.name)">
+            <th scope="row">{{$index}}</th>
+            <td>{{f.name}}</td>
+            <td>{{f.size  |bytes }}</td>
+            <td>{{f.createdAt |date: 'dd-MM-yyyy'}}</td>
+            <td>
+                <a class="btn btn-danger hidden-btn" href="#" role="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+            </td>
+
+        </tr>
+    </tbody>
+</table>
