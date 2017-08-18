@@ -22,7 +22,9 @@ angular.module("nexplorer",['smart-table','ngBootbox'])
         }
     })
     .controller("MainController", function($scope, $rootScope,  $ngBootbox, FS) {
+        var historyIdx=-1;
         $scope.currentFiles= [];
+        $scope.history= [];
         $scope.addressBar=HOME;
         $scope.statusIcon="glyphicon-folder-open"; //or glyphicon-hdd
         readDir(HOME);
@@ -62,6 +64,13 @@ angular.module("nexplorer",['smart-table','ngBootbox'])
         $scope.openDir= function(dirName) {
             console.log(path.join($scope.addressBar, dirName));
             readDir(path.join($scope.addressBar, dirName));
+        }
+        
+        $scope.previous= function() {
+            readDir($scope.history[--historyIdx]);
+        }
+        $scope.next= function() {
+            readDir($scope.history[++historyIdx]);
         }
         
         $scope.changeToParentDir= function() {
@@ -112,6 +121,7 @@ angular.module("nexplorer",['smart-table','ngBootbox'])
             else {
                 FS.readdir(dir, function(err, fileNames) {
                     if(!err) {
+                        
                         $scope.$apply( function() {
                             
                             /[A-Za-z]:.?$|\/$/.test(dir)?  $scope.statusIcon="glyphicon-hdd" : $scope.statusIcon="glyphicon-folder-open";
@@ -119,6 +129,9 @@ angular.module("nexplorer",['smart-table','ngBootbox'])
                             $scope.currentFiles =[];
                             $scope.dirSize=0;
                             $scope.addressBar= dir;
+                            $scope.history.push(dir);
+                            historyIdx++;
+
                             $scope.currentDir= path.basename(dir) || path.parse(dir).root;
                             $scope.fileCount= fileNames.length;
                             if( fileNames.length == 0)  {

@@ -1,4 +1,4 @@
-# NeXplorer (0.0.5-alpha)
+# NeXplorer (0.0.6-alpha)
 
 Hybrid Cross-platform file browser, basically  made with NWJS for desktop, but can be used on the web as well.
 use cases:
