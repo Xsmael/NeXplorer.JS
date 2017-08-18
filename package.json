@@ -1,9 +1,9 @@
 {
     "main": "index.html",
 
-    "name": "nexplorer",
-    "version": "1.0.0",
-    "description": "nwjs file browser",
+    "name": "nenplorer",
+    "version": "0.0.6",
+    "description": "File browser for the web and desktop with NWJS",
 
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

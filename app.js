@@ -20,10 +20,8 @@ angular.module("nexplorer",['smart-table'])
     .controller("MainController", function($scope, $rootScope, FS) {
         $scope.currentFiles= [];
         $scope.addressBar=HOME;
-        $scope.itemsViewMode="templates/thumb-view.html";                         
+        $scope.changeViewMode("list");                         
         readDir(HOME);
-
-        
 
         $scope.changeViewMode= function(mode) {
             switch (mode) {
