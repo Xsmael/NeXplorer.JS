@@ -125,8 +125,8 @@
             <div class="row bottom-bar">
                 <div class="input-group">
                     <div class="input-group-btn">
-                        <span class="btn btn-default"><span class="glyphicon glyphicon glyphicon-folder-open" aria-hidden="true"></span></span>
-                        <span class="btn btn-default"> <strong> {{currentDir}} </strong> </span>
+                        <span class="btn btn-default"><span class="glyphicon glyphicon" ng-class="statusIcon" aria-hidden="true"></span> <strong> {{ currentDir }} </strong> </span>
+                        
                         <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>-->
                         <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>-->
                             <span class="btn btn-default " style="padding:3px 10px;">
@@ -140,7 +140,7 @@
                             </span>
                     </div>
               
-                    <input type="search" st-search="name" class="form-control" placeholder="Search">
+                    <input type="search" st-search="name" ng-model="searchInput" class="form-control" placeholder="Search">
 
                     <div class="input-group-btn">
                         <span class="btn btn-default"> <strong> {{dirSize |bytes}}  </strong> </span>

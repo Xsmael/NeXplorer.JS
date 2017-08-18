@@ -3,7 +3,7 @@ var HOME= process.platform === 'win32' ? process.env.USERPROFILE : process.env.H
 var fs = require('fs');
 const path = require('path');
 
-angular.module("nexplorer",['smart-table'])
+angular.module("nexplorer",['smart-table','ngBootbox'])
     .factory("FS", function() {
         var fs = require('fs');
         return fs;
@@ -20,7 +20,7 @@ angular.module("nexplorer",['smart-table'])
     .controller("MainController", function($scope, $rootScope, FS) {
         $scope.currentFiles= [];
         $scope.addressBar=HOME;
-        $scope.changeViewMode("list");                         
+        $scope.statusIcon="glyphicon-folder-open"; // glyphicon-hdd
         readDir(HOME);
 
         $scope.changeViewMode= function(mode) {
@@ -33,15 +33,8 @@ angular.module("nexplorer",['smart-table'])
                     break;
             }
         }
+        $scope.changeViewMode('list');  
 
-        $scope.changeDir= function(dir) {
-            readDir(dir);
-            console.log("chainging...");
-        }
-        $scope.openDir= function(dirName) {
-            console.log(path.join($scope.addressBar, dirName));
-            readDir(path.join($scope.addressBar, dirName));
-        }
         $scope.mkDir= function(dirName) {
             fs.mkdir( path.join($scope.currentDir,dirName), function(err) {
                 if (err) alert("Error in creating the directory \n"+err);
@@ -52,7 +45,15 @@ angular.module("nexplorer",['smart-table'])
                 if (err) alert("Error in creating the directory \n"+err);
             });
         }
+
+        $scope.changeDir= function(dir) {
+            readDir(dir);
+        }
         
+        $scope.openDir= function(dirName) {
+            console.log(path.join($scope.addressBar, dirName));
+            readDir(path.join($scope.addressBar, dirName));
+        }
         
         $scope.changeToParentDir= function() {
             var tmp= $scope.addressBar.split(path.sep);
@@ -71,6 +72,9 @@ angular.module("nexplorer",['smart-table'])
 
                 if(!err) {
                     $scope.$apply( function() {
+                        
+                        /[A-Za-z]:.?$|\/$/.test(dir)?  $scope.statusIcon="glyphicon-hdd" : $scope.statusIcon="glyphicon-folder-open";
+                        $scope.searchInput="";
                         $scope.currentFiles =[];
                         $scope.dirSize=0;
                         $scope.addressBar= dir;
