@@ -17,7 +17,7 @@ angular.module("nexplorer",['smart-table','ngBootbox'])
             return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
         }
     })
-    .controller("MainController", function($scope, $rootScope, FS) {
+    .controller("MainController", function($scope, $rootScope,  $ngBootbox, FS) {
         $scope.currentFiles= [];
         $scope.addressBar=HOME;
         $scope.statusIcon="glyphicon-folder-open"; // glyphicon-hdd
@@ -36,13 +36,13 @@ angular.module("nexplorer",['smart-table','ngBootbox'])
         $scope.changeViewMode('list');  
 
         $scope.mkDir= function(dirName) {
-            fs.mkdir( path.join($scope.currentDir,dirName), function(err) {
-                if (err) alert("Error in creating the directory \n"+err);
+            fs.mkdir( path.join($scope.addressBar,dirName), function(err) {
+                if (err)  $ngBootbox.alert('Error in creating the directory \n <div class="alert alert-danger" role="alert">'+err+'</div>');
             });
         }
         $scope.mkFile= function(fileName) {
-            fs.writeFile(  path.join($scope.currentDir, fileName) , "", function (err) {
-                if (err) alert("Error in creating the directory \n"+err);
+            fs.writeFile(  path.join($scope.addressBar, fileName) , "", function (err) {
+                if (err)  $ngBootbox.alert('Error in creating the file \n <div class="alert alert-danger" role="alert">'+err+'</div>');
             });
         }
 

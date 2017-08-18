@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="libs/css/jquery-ui.min.css" />
     <link rel="stylesheet" href="libs/css/bootstrap.min.css" />
     <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="app.css" />
 
     <script src="libs/js/jquery.1.11.min.js"></script>
     <script src="libs/js/jquery-ui.min.js"></script>
@@ -17,69 +18,9 @@
     <script src="js/live-reload.js"></script>
     <script src="libs/js/angular.js"></script>
     <script src="libs/js/smart-table.js"></script>
+    <script src="libs/js/ngBootbox.min.js"></script>
     <script src="app.js"></script>
     <title>NeXplorer</title>
-
-    <style>
-        body {
-            margin-left: 15px;
-            margin-right: 15px;
-        }
-
-        .hidden-btn {
-            display: none;
-        }
-
-        .hidden-btn-parent:hover .hidden-btn {
-            display: block;
-        }
-
-        .hidden-btn-parent:hover {
-            background-color: #fff3b5 !important;
-        }
-
-        .address-bar {
-            position: fixed;
-            height: 60px;
-            background-color: white;
-            z-index: 9999;
-            padding-top: 15px;
-            margin-right: 15px;
-            /*margin-top: 30px;*/
-        }
-
-        .bottom-bar {
-            position: fixed;
-            bottom: 0;
-            padding-bottom: 10px;
-            margin-right: 15px;
-            background-color: white;
-        }
-
-        .files-box {
-            margin-top: 50px;
-            margin-bottom: 30px;
-        }
-
-        .overlay {
-            top: 5px;
-            margin-left: -12px;
-        }
-        .new-dir-input {
-                margin-bottom: -3px;
-
-        }
-        .new-dir-input{
-            width: 10px;
-            -webkit-transition: width 0.4s ease-in-out;
-            transition: width 0.4s ease-in-out;
-        }
-        /* When the input field gets focus, change its width to 100% */
-        .new-dir-input:focus {
-            width: 60vw;
-        }
-
-    </style>
 </head>
 
 <body ng-app="nexplorer">
@@ -129,12 +70,12 @@
                         
                         <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>-->
                         <!--<a class="btn btn-default" href="#" role="button"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>-->
-                            <span class="btn btn-default " style="padding:3px 10px;">
+                            <span class="btn btn-default"  style="padding:3px 10px;" ng-bootbox-prompt="Enter the directory name" ng-bootbox-prompt-action="mkDir(result)" >
                                     <i class="glyphicon glyphicon-folder-open" style="font-size:21px; padding:0px"></i>
                                     <i class="glyphicon glyphicon-plus overlay" style="color:orange" ></i>
-                                    <input type="tezxt" class="new-dir-input" placeholder="Name">
                             </span>
-                            <span class="btn btn-default " style="padding:3px 10px;">
+
+                            <span class="btn btn-default " style="padding:3px 10px;"  ng-bootbox-prompt="Enter the file name" ng-bootbox-prompt-action="mkFile(result)"> 
                                     <i class="glyphicon glyphicon-file" style="font-size:21px; padding:0px"></i>
                                     <i class="glyphicon glyphicon-plus overlay" style="color:orange" ></i>
                             </span>
