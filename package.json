@@ -1,20 +1,23 @@
 {
-    "main": "index.html",
-
-    "name": "nenplorer",
-    "version": "0.0.6",
-    "description": "File browser for the web and desktop with NWJS",
-    "window": {
-    // "title": "node-webkit demo",
+  "main": "index.html",
+  "name": "nexplorer",
+  "version": "0.0.6",
+  "description": "File browser for the web and desktop with NWJS",
+  "window": {
+    "title": "Nexplorer",
     "icon": "icons/app-icon.png",
     "width": 800,
     "height": 500,
     "position": "mouse"
   },
-
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "noogger": "^0.1.7",
+    "ssh2-sftp-client": "^1.1.0",
+    "url-parse": "^1.1.9"
+  }
 }

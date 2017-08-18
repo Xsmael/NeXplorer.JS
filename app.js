@@ -2,6 +2,10 @@
 var HOME= process.platform === 'win32' ? process.env.USERPROFILE : process.env.HOME; 
 var fs = require('fs');
 const path = require('path');
+var parseURI= require('url-parse');
+var sftpClient = require('ssh2-sftp-client');
+var sftp = new sftpClient();
+
 
 angular.module("nexplorer",['smart-table','ngBootbox'])
     .factory("FS", function() {
@@ -20,7 +24,7 @@ angular.module("nexplorer",['smart-table','ngBootbox'])
     .controller("MainController", function($scope, $rootScope,  $ngBootbox, FS) {
         $scope.currentFiles= [];
         $scope.addressBar=HOME;
-        $scope.statusIcon="glyphicon-folder-open"; // glyphicon-hdd
+        $scope.statusIcon="glyphicon-folder-open"; //or glyphicon-hdd
         readDir(HOME);
 
         $scope.changeViewMode= function(mode) {
@@ -47,7 +51,12 @@ angular.module("nexplorer",['smart-table','ngBootbox'])
         }
 
         $scope.changeDir= function(dir) {
+
             readDir(dir);
+        }
+
+        $scope.refresh= function() {
+            readDir($scope.addressBar);
         }
         
         $scope.openDir= function(dirName) {
@@ -68,45 +77,79 @@ angular.module("nexplorer",['smart-table','ngBootbox'])
         }
 
         function readDir(dir) {
-            FS.readdir(dir, function(err, fileNames) {
-
-                if(!err) {
-                    $scope.$apply( function() {
-                        
-                        /[A-Za-z]:.?$|\/$/.test(dir)?  $scope.statusIcon="glyphicon-hdd" : $scope.statusIcon="glyphicon-folder-open";
-                        $scope.searchInput="";
-                        $scope.currentFiles =[];
-                        $scope.dirSize=0;
-                        $scope.addressBar= dir;
-                        $scope.currentDir= path.basename(dir) || path.parse(dir).root;
-                        $scope.fileCount= fileNames.length;
-                        if( fileNames.length == 0)  {
-                            $scope.currentFiles =[];
-                        }
-                    });
-                    fileNames.forEach(function(fname) {
-                        var absolutePath= path.join( dir, fname);
-                        FS.stat( absolutePath, function (err, stats) {
-                        $scope.$apply( function() {
-                            $scope.dirSize+=  stats.size;
-                            var ext= path.parse(absolutePath).ext.toLowerCase();
-                            var iconUrl= (ext.length == 0 ) ? "file:///icons/folder-default.svg" : (['.jpg','.png','.gif','.bmp'].indexOf(ext)>-1) ? absolutePath : "file:///icons/file_default.svg" ;
-                            console.log(iconUrl);
-                            $scope.currentFiles.push({
-                                name: fname,
-                                size: stats.size,
-                                createdAt: stats.birthtime,
-                                modifiedAt: stats.mtime,
-                                icon: iconUrl
+            if(parseURI(dir).hostname) { // then we have a URI and a different protocol
+                var URI= parseURI(dir);
+                switch (URI.protocol) {
+                    case 'sftp:':
+                    console.info("SFTP protocol");
+                        if(!URI.password) {
+                             $ngBootbox.prompt({ 
+                                size: "small",
+                                title: "Enter the password", 
+                                inputType: "password",
+                                callback: function(result){ URI.password= result;  }
                             });
+                        }
+                        sftp.connect({
+                            host: URI.host,
+                            port:  URI.port || '22',
+                            username: URI.username,
+                            password: URI.password
+                        }).then(() => {
+                            $ngBootbox.alert("sucess \n"+sftp.list('/'));
+                            return sftp.list('/');
+                        }).then((data) => {
+                            console.log(data, 'the data info');
+                        }).catch((err) => {
+                            console.log(err, 'catch error');
                         });
+                        break;
+                
+                    default:
+                        break;
+                }
+            }
+            else {
+                FS.readdir(dir, function(err, fileNames) {
+                    if(!err) {
+                        $scope.$apply( function() {
+                            
+                            /[A-Za-z]:.?$|\/$/.test(dir)?  $scope.statusIcon="glyphicon-hdd" : $scope.statusIcon="glyphicon-folder-open";
+                            $scope.searchInput="";
+                            $scope.currentFiles =[];
+                            $scope.dirSize=0;
+                            $scope.addressBar= dir;
+                            $scope.currentDir= path.basename(dir) || path.parse(dir).root;
+                            $scope.fileCount= fileNames.length;
+                            if( fileNames.length == 0)  {
+                                $scope.currentFiles =[];
+                            }
                         });
-                    }, this);   
+                        fileNames.forEach(function(fname) {
+                            var absolutePath= path.join( dir, fname);
+                            FS.stat( absolutePath, function (err, stats) {
+                            $scope.$apply( function() {
+                                $scope.dirSize+=  stats.size;
+                                var ext= path.parse(absolutePath).ext.toLowerCase();
+                                var iconUrl= (ext.length == 0 ) ? "file:///icons/folder-default.svg" : (['.jpg','.png','.gif','.bmp'].indexOf(ext)>-1) ? absolutePath : "file:///icons/file_default.svg" ;
+                                console.log(iconUrl);
+                                $scope.currentFiles.push({
+                                    name: fname,
+                                    size: stats.size,
+                                    createdAt: stats.birthtime,
+                                    modifiedAt: stats.mtime,
+                                    icon: iconUrl
+                                });
+                            });
+                            });
+                        }, this);   
 
-                    console.log($scope.currentFiles);                 
-                } 
-                else console.err(err);
-            });
+                        console.log($scope.currentFiles);                 
+                    } 
+                    else console.err(err);
+                });
+            }
+            
         }
     })
 
