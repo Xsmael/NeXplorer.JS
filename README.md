@@ -33,3 +33,10 @@ use cases:
 - this is an alpha verion, I'll need few weeks to finish the first release as my time permit...
 - Tested only on windows, you can try other platform and report any bugs.
 
+##### TODO:
+
+- History (handling Next/prev )
+- Implement FTP, SFTP, SAMBA protocols
+- sperate the file system manipulation from the main logic and make an API, so that it can be used in any other language (web based) like php perl or python.
+
+
