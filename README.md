@@ -11,22 +11,22 @@ use cases:
 
 
 ## Listview
-![List view](screenshots/1.png)
+![List view](https://github.com/Xsmael/NeXplorer.JS/raw/master/screenshots/1.png)
 
 
 ## Thumbnail view 1
 
-![Thumbnail view](screenshots/2.png?raw=true "Thumbnails")
+![Thumbnail view](https://github.com/Xsmael/NeXplorer.JS/raw/master/screenshots/2.png?raw=true "Thumbnails")
 
 
 ## Thumbnail view 2
 
-![Thumbnail view](screenshots/3.png?raw=true "Thumbnails")
+![Thumbnail view](https://github.com/Xsmael/NeXplorer.JS/raw/master/screenshots/3.png?raw=true "Thumbnails")
 
 
 ## Thumbnail view 3
 
-![Thumbnail view](screenshots/4.png?raw=true "Thumbnails")
+![Thumbnail view](https://github.com/Xsmael/NeXplorer.JS/raw/master/screenshots/4.png?raw=true "Thumbnails")
 
 
 ##### Beware:
