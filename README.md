@@ -1,6 +1,6 @@
 # NeXplorer (0.0.6-alpha)
 
-Hybrid Cross-platform file browser, basically  made with NWJS for desktop, but can be used on the web as well.
+Hybrid Cross-platform file explorer / browser, basically  made with NWJS for desktop, but can be used on the web as well.
 use cases:
 
 - You can run it as executable on any OS supported by NWJS, that is Windows, MacOS and Linux (default ready-made)
